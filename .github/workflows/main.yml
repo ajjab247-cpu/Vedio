@@ -22,14 +22,14 @@ jobs:
         shell: powershell
         run: |
           $url = '${{ secrets.GDRIVE_CAP_URL1 }}'
-          $output = 'Download1.zip'
+          $output = 'Download1.zip' # <-- تم إصلاح المسافة الزائدة
           Invoke-WebRequest -Uri $url -OutFile $output
 
       - name: Unzip Download1.zip
         shell: powershell
         run: |
           Expand-Archive -Path Download1.zip -DestinationPath . -Force
-          Remove-Item Download1.zip
+          Remove-Item Download1.zip 
 
       - name: Install Python dependencies
         run: |
@@ -37,19 +37,5 @@ jobs:
           pip install -r requirements.txt
           pip install webdriver-manager
 
-      - name: Auto-update Chrome and ChromeDriver
-        shell: powershell
-        run: |
-          # Install Chocolatey if not already installed
-          if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
-            Set-ExecutionPolicy Bypass -Scope Process -Force
-            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-            Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-          }
-          # Update Google Chrome
-          choco upgrade googlechrome -y  --ignore-checksums
-          # Install ChromeDriver that matches installed Chrome
-          choco upgrade chromedriver --force -y
-
-      - name: Run pex2.py
+      - name: Run pex2.py 
         run: python pex2.py
