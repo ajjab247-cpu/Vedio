@@ -21,7 +21,7 @@ jobs:
       - name: Download Download1.zip from Google Drive
         shell: powershell
         run: |
-          $url = '${{ secrets.GDRIVE_CAP_URL }}'
+          $url = '${{ secrets.GDRIVE_CAP_URL1 }}'
           $output = 'Download1.zip'
           Invoke-WebRequest -Uri $url -OutFile $output
 
